@@ -7,6 +7,6 @@ try:
     import aiohttp
 
     from .AsyncSeekableHTTPFile import AsyncSeekableHTTPFile
-    __all__.append(AsyncSeekableHTTPFile)
+    __all__.append('AsyncSeekableHTTPFile')
 except ImportError:
     pass

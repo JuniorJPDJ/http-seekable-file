@@ -17,6 +17,7 @@ class AsyncSeekableHTTPFile(object):
         self._init_called = False
         self.name = name
         self.len = None
+        self.mimetype = None
         self.closed = True
 
         self._pos = 0
@@ -30,6 +31,7 @@ class AsyncSeekableHTTPFile(object):
         if (f.status == 206 and 'Content-Range' in f.headers) or (f.status == 200 and 'Accept-Ranges' in f.headers):
             self._seekable = True
         self.len = int(f.headers["Content-Length"])
+        self.mimetype = f.headers["Content-Type"]
         if self.name is None:
             if "Content-Disposition" in f.headers:
                 value, params = cgi.parse_header(f.headers["Content-Disposition"])

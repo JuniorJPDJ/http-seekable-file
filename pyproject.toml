@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "http-seekable-file"
-version = "0.1.0"
+version = "0.2.0"
 description = "Provides file-like seekable interface for HTTP(S) URLs in sync and async fashion"
 authors = ["JuniorJPDJ <dev@juniorjpdj.pl>"]
 packages = [

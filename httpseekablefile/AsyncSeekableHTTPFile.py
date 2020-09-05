@@ -17,7 +17,7 @@ class AsyncSeekableHTTPFile(object):
         self._init_called = False
         self.name = name
         self.len = None
-        self.mimetype = None
+        self.resp_headers = None
         self.closed = True
 
         self._pos = 0
@@ -30,8 +30,8 @@ class AsyncSeekableHTTPFile(object):
         f = await self.sess.head(self.url, headers={'Range': 'bytes=0-'}, timeout=self.timeout)
         if (f.status == 206 and 'Content-Range' in f.headers) or (f.status == 200 and 'Accept-Ranges' in f.headers):
             self._seekable = True
+        self.resp_headers = f.headers
         self.len = int(f.headers["Content-Length"])
-        self.mimetype = f.headers["Content-Type"]
         if self.name is None:
             if "Content-Disposition" in f.headers:
                 value, params = cgi.parse_header(f.headers["Content-Disposition"])
@@ -42,6 +42,10 @@ class AsyncSeekableHTTPFile(object):
         self.closed = False
 
         return self
+
+    @property
+    def mimetype(self):
+        return self.resp_headers["Content-Type"]
 
     async def seekable(self):
         return self._seekable
@@ -66,6 +70,7 @@ class AsyncSeekableHTTPFile(object):
         else:
             self._pos = 0
             self._r = await self.sess.get(self.url, timeout=self.timeout)
+        self.resp_headers = self._r.headers
 
     async def seek(self, offset, whence=0):
         if not await self.seekable():

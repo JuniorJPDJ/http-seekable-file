@@ -1,11 +1,8 @@
 [tool.poetry]
-name = "http-seekable-file"
-version = "0.2.0"
+name = "httpseekablefile"
+version = "0.3.0"
 description = "Provides file-like seekable interface for HTTP(S) URLs in sync and async fashion"
 authors = ["JuniorJPDJ <dev@juniorjpdj.pl>"]
-packages = [
-    { include = "httpseekablefile" }
-]
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -17,5 +14,5 @@ async = ["aiohttp"]
 sync = ["requests"]
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
